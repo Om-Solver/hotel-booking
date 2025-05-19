@@ -1,4 +1,3 @@
-import { json } from "express";
 import User from "../models/User.js";
 import { Webhook } from "svix";
 
@@ -14,11 +13,11 @@ const clerkWebhooks = async (req, res) => {
             "svix-signature": req.headers["svix-signature"],
         };
 
-        // Veryfying Headers
+        // Veriyfying Headers
         await whook.verify(JSON.stringify(req.body), headers)
 
         //Getting Data from request body
-        const { daa, type } = req.body
+        const { data, type } = req.body
 
         const userData = {
             _id: data.id,
