@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import { Webhook } from "svix";
 
-const clerkWebhooks = async (req, res) => {
+const clerkWebhooks = async (req, res)=>{
     try {
         //Create a Svix instance with clerk webhook secret.
         const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
@@ -17,7 +17,7 @@ const clerkWebhooks = async (req, res) => {
         await whook.verify(JSON.stringify(req.body), headers)
 
         //Getting Data from request body
-        const { data, type } = req.body
+        const {data, type} = req.body
 
         const userData = {
             _id: data.id,
@@ -28,17 +28,17 @@ const clerkWebhooks = async (req, res) => {
 
         //Switch Cases for different Events
         switch (type) {
-            case "user.created": {
+            case "user.created":{
                 await User.create(userData);
                 break;
             }
 
-            case "user.updated": {
+            case "user.updated":{
                 await User.findByIdAndUpdate(data.id, userData);
                 break;
             }
 
-            case "user.deleted": {
+            case "user.deleted":{
                 await User.findByIdAndDelete(data.id);
                 break;
             }
@@ -50,7 +50,7 @@ const clerkWebhooks = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
-        res.json({success: false, message: error.message});
+        res.json({ success: false, message: error.message });
     }
 }
 
