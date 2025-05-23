@@ -1,40 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import HotelCard from './HotelCard'
 import Title from './Title'
+import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
 
-const FeaturedDestination = () => {
-    const {rooms, navigate} = useAppContext();
+const RecommendedHotels = () => {
+    const {rooms, searchedCities} = useAppContext();
+    const [recommended, setRecommended] = useState([]);
 
-    return rooms.length > 0 && (
-        <section className='w-full bg-slate-50/50'>
+    const filterHotels = () => {
+        const filteredHotels = rooms.slice().filter(room => searchedCities.includes(room.hotel.city));
+        setRecommended(filteredHotels);
+    }
+
+    useEffect(() => {
+        filterHotels()
+    }, [rooms, searchedCities])
+
+    return recommended.length > 0 && (
+        <section className='w-full bg-slate-50'>
             <div className='container mx-auto px-6 md:px-16 lg:px-24 py-20'>
                 <Title 
-                    title='Featured Destination' 
+                    title='Recommended Hotels' 
                     subTitle='Discover our handpicked selection of exceptional properties around the world, offering unparalleled luxury and unforgettable experiences.' 
                 />
 
                 <div className='w-full mt-16'>
                     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6'>
-                        {rooms.slice(0, 4).map((room, index) => (
+                        {recommended.slice(0, 4).map((room, index) => (
                             <div key={room._id}>
                                 <HotelCard room={room} index={index} />
                             </div>
                         ))}
                     </div>
                 </div>
-
-                <div className='flex justify-center mt-12'>
-                    <button 
-                        onClick={() => { navigate('/rooms'); scrollTo(0, 0) }}
-                        className='px-6 py-2.5 text-sm font-medium border border-gray-300 rounded-lg 
-                                bg-white hover:bg-gray-50 hover:border-gray-400 transition-all'>
-                        View All Destinations
-                    </button>
-                </div>
             </div>
         </section>
     )
 }
 
-export default FeaturedDestination
+export default RecommendedHotels
