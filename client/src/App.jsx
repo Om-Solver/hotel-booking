@@ -11,13 +11,14 @@ import Layout from './pages/hotelOwner/Layout';
 import Dashboard from './pages/hotelOwner/Dashboard';
 import AddRoom from './pages/hotelOwner/AddRoom';
 import ListRoom from './pages/hotelOwner/ListRoom';
-import {Toaster} from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 import { useAppContext } from './context/AppContext';
+import Loader from './components/Loader';
 
 const App = () => {
 
   const isOwnerPath = useLocation().pathname.includes("owner");
-  const {showHotelReg} = useAppContext();
+  const { showHotelReg } = useAppContext();
 
   return (
     <div>
@@ -30,6 +31,8 @@ const App = () => {
           <Route path='/rooms' element={<AllRooms />} />
           <Route path='/rooms/:id' element={<RoomDetailes />} />
           <Route path='/my-bookings' element={<MyBookings />} />
+          <Route path='/loader/:nextUrl' element={<Loader />} />
+
           <Route path='/owner' element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path='add-room' element={<AddRoom />} />
