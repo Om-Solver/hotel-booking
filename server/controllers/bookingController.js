@@ -142,9 +142,6 @@ export const stripePayment = async (req, res) => {
         const { bookingId } = req.body;
 
         const booking = await Booking.findById(bookingId);
-        if (!booking) {
-            return res.json({ success: false, message: "Booking not found" });
-        }
         const roomData = await Room.findById(booking.room).populate('hotel');
         const totalPrice = booking.totalPrice;
         const { origin } = req.headers;

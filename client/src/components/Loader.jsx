@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
+import { useParams } from 'react-router-dom'
 
 const Loader = () => {
 
